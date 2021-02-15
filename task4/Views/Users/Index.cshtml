@@ -1,0 +1,114 @@
+﻿@model task4.ViewModel.UserListViewModel;
+@inject task4.Models.UsersContext db;
+@{
+    ViewData["Title"] = "Users";
+    ViewData["UserEmail"] = User.Identity.Name;
+    var users = db.Users.ToList();
+}
+
+<div class="h-100 d-flex">
+    <form asp-controller="Users" method="post" class="m-auto w-75 h-75 table table-striped">
+        <div class="offset-4 col-4 text-center" role="group">
+            <button asp-action="SetBlock" asp-route-block="@true" class="m-3 lock btn border-0" type="submit" />
+            <button asp-action="SetBlock" asp-route-block="@false" class="m-3 unlock btn border-0" type="submit" />
+            <button asp-action="Delete" class="m-3 btn border-0 text-danger" type="submit">X</button>
+        </div>
+        <div class="row font-weight-bold">
+            <div class="col">
+                <input class="user-selection-checkbox" id="toggleSelect" type="checkbox">
+            </div>
+            <div class="col">Id</div>
+            <div class="col">Login</div>
+            <div class="col">Email</div>
+            <div class="col">Registration date</div>
+            <div class="col">Last login date</div>
+            <div class="col">State</div>
+        </div>
+        <div style="height: 300px; overflow-y: scroll">
+            <div>
+                @for (int i = 0; i < users.Count; i++) {
+                    <div class="row card-columns">
+                        <div class="col checkBox justify-content-center">
+                            <input asp-for="Users[i].Checked" class="user-selection-checkbox" type="checkbox" />
+                            <input asp-for="Users[i].UserId" type="hidden" value="@users[i].Id" />
+                        </div>
+                        <div class="col">@users[i].Id</div>
+                        <div class="col">@users[i].Login</div>
+                        <div class="col">@users[i].Email</div>
+                        <div class="col">@users[i].RegistrationDate.ToString("dd.MM.yyyy")</div>
+                        <div class="col">@users[i].LastLoginDate.ToString("dd.MM.yyyy")</div>
+                        <div class="col">
+                            @if (users[i].IsBlocked) {
+                                <span class="text-danger">Blocked</span>
+                            } else {
+                                <span class="text-info">Unblocked</span>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </form>
+</div>
+
+@*
+
+    <div class="middle w-75 h-75">
+        <div>
+            <form asp-controller="Users" method="post">
+                <div class="offset-4 col-4 text-center" role="group">
+                    <button asp-action="SetBlock" asp-route-block="@true" class="m-3 lock btn border-0" type="submit" />
+                    <button asp-action="SetBlock" asp-route-block="@false" class="m-3 unlock btn border-0" type="submit" />
+                    <button asp-action="Delete" class="m-3 btn border-0 text-danger" type="submit">X</button>
+                </div>
+                <div>
+                    <table class="w-100 border table table-striped fixed_header">
+                        <thead class="table-light">
+                            <tr>
+                                <th>
+                                    <input class="user-selection-checkbox" id="toggleSelect" type="checkbox">
+                                </th>
+                                <th>Id</th>
+                                <th>Login</th>
+                                <th>Email</th>
+                                <th>Registration date</th>
+                                <th>Last login date</th>
+                                <th>State</th>
+                            </tr>
+                        </thead>
+                        <tbody style="height: 350px; overflow-y: scroll">
+                            @for (int i = 0; i < users.Count; i++) {
+                                <tr>
+                                    <td class="checkBox justify-content-center">
+                                        <input asp-for="Users[i].Checked" class="user-selection-checkbox" type="checkbox" />
+                                        <input asp-for="Users[i].UserId" type="hidden" value="@users[i].Id" />
+                                    </td>
+                                    <td>@users[i].Id</td>
+                                    <td>@users[i].Login</td>
+                                    <td>@users[i].Email</td>
+                                    <td>@users[i].RegistrationDate.ToString("dd.MM.yyyy")</td>
+                                    <td>@users[i].LastLoginDate.ToString("dd.MM.yyyy")</td>
+                                    <td>
+                                        @if (users[i].IsBlocked) {
+                                            <div class="text-danger">Blocked</div>
+                                        } else {
+                                            <div class="text-info">Unblocked</div>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+*@
+
+@section scripts {
+    <script>
+        $('#toggleSelect').change(changeEvent => {
+            [...$(".checkBox input[type='checkBox']")].map(e => e.checked = changeEvent.target.checked);
+        });
+    </script>
+}

@@ -1,0 +1,36 @@
+﻿@model task4.ViewModel.RegisterViewModel
+@{
+    ViewData["Title"] = "Registration";
+}
+
+<div class="offset-4 col-4 h-75 middle border">
+    <form class="middle offset-3 col-6" asp-action="Login" asp-controller="Account" asp-antiforgery="true">
+        <div class="text-center h3 mb-3">Registration</div>
+        <div class="text-center">
+            @Html.ValidationSummary(true)
+            
+            <div class="form-group">
+                @Html.ValidationMessageFor(x => x.Login)
+                <input class="form-control mt-2" asp-for="Login" type="text" placeholder="Login" />
+            </div>
+            <div class="form-group">
+                @Html.ValidationMessageFor(x => x.Email)
+                <input class="form-control mt-2" asp-for="Email" type="email" placeholder="Email" />
+            </div>
+            <div class="form-group">
+                @Html.ValidationMessageFor(x => x.Password)
+                <input class="form-control mt-2" asp-for="Password" type="password" placeholder="Password" />
+            </div>
+            <div class="form-group">
+                @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                <input class="form-control mt-2" asp-for="ConfirmPassword" type="password" placeholder="Confirm password" />
+            </div>
+            <div class="form-group">
+                <a href="/Account/Login">Login</a>
+            </div>
+            <div class="form-group">
+                <input asp-action="Register" class="btn btn-outline-dark" type="submit" value="Register" />
+            </div>
+        </div>
+    </form>
+</div>
