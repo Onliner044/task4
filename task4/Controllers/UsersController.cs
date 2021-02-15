@@ -46,10 +46,10 @@ namespace task4.Controllers {
         public async Task<IActionResult> SetBlock(UserListViewModel userListViewModel, bool block) {
             userListViewModel.Users.Where(userView => userView.Checked).ToList().ForEach(checkedUser => {
                 db.Users.Where(user => user.Id == checkedUser.UserId).ToList().ForEach(async checkeUser => {
-                    checkeUser.IsBlocked = block;
-
                     if (checkeUser.Email == User.Identity.Name && block) {
                         await HttpContext.SignOutAsync();
+                    } else {
+                        checkeUser.IsBlocked = block;
                     }
                 });
             });

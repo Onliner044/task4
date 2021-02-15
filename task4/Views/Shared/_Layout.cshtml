@@ -32,16 +32,16 @@
                         }
                     </ul>
                 </div>
-                <div class="">
-                    @if (User.Identity.IsAuthenticated) {
-                    <ul class="list-unstyled list-inline text-right">
-                        <li>@ViewData["UserEmail"]</li>
-                        <li>
-                            <a asp-controller="Account" asp-action="LogOut">LogOut</a>
-                        </li>
-                    </ul>
-                    }
-                </div>
+                @if (User.Identity.IsAuthenticated) {
+                  <form asp-controller="Account" asp-action="LogOut" method="post">
+                      <ul class="list-unstyled list-inline text-right">
+                          <li>@ViewData["UserEmail"]</li>
+                          <li>
+                              <input class="btn btn-sm btn-link" type="submit" value="LogOut" />
+                          </li>
+                      </ul>
+                  </form>
+                }
             </div>
         </nav>
     </header>
